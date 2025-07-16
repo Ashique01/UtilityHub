@@ -10,7 +10,7 @@ const pingRoutes = require('./routes/pingRoutes');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: "https://linkping.netlify.app" })); 
 app.use(express.json());
 app.use(morgan('tiny'));
 
