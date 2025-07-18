@@ -31,7 +31,7 @@ app.use('/api/url', urlRoutes);
 app.use('/api/ping', pingRoutes);
 
 mongoose
-  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("✅ MongoDB connected");
     const PORT = process.env.PORT || 5000;
