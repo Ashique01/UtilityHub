@@ -9,32 +9,36 @@ const pingRoutes = require('./routes/pingRoutes');
 
 const app = express();
 
-// Middleware
+const allowedOrigins = [
+  'https://linkping.netlify.app',
+  'http://localhost:5173'
+];
+
 app.use(cors({
-  origin: 'https://linkping.netlify.app',
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error('Not allowed by CORS'));
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'x-admin-token'],
 }));
 
 app.use(express.json());
-// app.use(morgan('tiny'));
+app.use(morgan('combined'));
 
-// Routes
 app.use('/api/url', urlRoutes);
 app.use('/api/ping', pingRoutes);
 
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log("✅ MongoDB connected");
-
-    // Start server only after DB is connected
     const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () =>
-      console.log(`🚀 Server running on http://localhost:${PORT}`)
-    );
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
+    });
   })
   .catch((err) => {
     console.error("❌ MongoDB connection error:", err);
   });
-
