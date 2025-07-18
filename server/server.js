@@ -10,9 +10,14 @@ const pingRoutes = require('./routes/pingRoutes');
 const app = express();
 
 // Middleware
-app.use(cors({ origin: "https://linkping.netlify.app" })); 
+app.use(cors({
+  origin: 'https://linkping.netlify.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'x-admin-token'],
+}));
+
 app.use(express.json());
-app.use(morgan('tiny'));
+// app.use(morgan('tiny'));
 
 // Routes
 app.use('/api/url', urlRoutes);
