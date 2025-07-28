@@ -19,8 +19,6 @@ LinkPing is a full-stack web application that allows users to shorten URLs with 
 ## 🔗 Live Demo  
 [https://linkping.netlify.app](https://linkping.netlify.app)  
 
-## 🖥️ Screenshots  
-*(Add screenshots of your application here)*  
 
 ## 📂 Installation  
 
